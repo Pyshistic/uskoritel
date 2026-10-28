@@ -14,6 +14,7 @@ import androidx.compose.material.icons.rounded.Apps
 import androidx.compose.material.icons.rounded.BatteryChargingFull
 import androidx.compose.material.icons.rounded.CleaningServices
 import androidx.compose.material.icons.rounded.RocketLaunch
+import androidx.compose.material.icons.rounded.SportsEsports
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -44,6 +45,7 @@ class MainActivity : ComponentActivity() {
 
 enum class Tab(val title: String, val icon: ImageVector) {
     HOME("Ускорение", Icons.Rounded.RocketLaunch),
+    GAME("Игры", Icons.Rounded.SportsEsports),
     CLEAN("Очистка", Icons.Rounded.CleaningServices),
     BATTERY("Батарея", Icons.Rounded.BatteryChargingFull),
     APPS("Приложения", Icons.Rounded.Apps),
@@ -62,7 +64,7 @@ fun AppRoot(tick: Int) {
                         selected = tab == t,
                         onClick = { tab = t },
                         icon = { Icon(t.icon, contentDescription = null) },
-                        label = { Text(t.title) },
+                        label = { Text(t.title, maxLines = 1) },
                     )
                 }
             }
@@ -75,6 +77,7 @@ fun AppRoot(tick: Int) {
         ) {
             when (tab) {
                 Tab.HOME -> HomeScreen(tick)
+                Tab.GAME -> GameScreen(tick)
                 Tab.CLEAN -> CleanScreen(tick)
                 Tab.BATTERY -> BatteryScreen(tick)
                 Tab.APPS -> AppsScreen(tick)

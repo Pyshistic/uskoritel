@@ -4,6 +4,8 @@
 
     <!-- Остановка фоновых процессов (на Android 14+ система разрешает только свои) -->
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
+    <!-- Режим «Не беспокоить» во время игры -->
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
     <!-- Статистика: какие приложения активнее всех -->
     <uses-permission
         android:name="android.permission.PACKAGE_USAGE_STATS"
