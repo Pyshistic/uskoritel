@@ -2,7 +2,11 @@ name: Сборка APK
 
 on:
   push:
+    branches: [main]
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -22,7 +26,20 @@ jobs:
           chmod +x gradlew
           ./gradlew assembleRelease --no-daemon
 
-      - uses: actions/upload-artifact@v4
+      - name: Подготовить файл
+        id: prep
+        run: |
+          VERSION=$(grep -oP 'versionName = "\K[^"]+' app/build.gradle.kts)
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          cp app/build/outputs/apk/release/app-release.apk Uskoritel.apk
+
+      - name: Опубликовать релиз
+        uses: softprops/action-gh-release@v2
         with:
-          name: Uskoritel-apk
-          path: app/build/outputs/apk/release/*.apk
+          tag_name: v${{ steps.prep.outputs.version }}-${{ github.run_number }}
+          name: Ускоритель ${{ steps.prep.outputs.version }} (сборка ${{ github.run_number }})
+          body: |
+            Скачай **Uskoritel.apk** ниже и открой его на телефоне.
+            Устанавливается поверх старой версии.
+          files: Uskoritel.apk
+          make_latest: true
